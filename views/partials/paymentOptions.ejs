@@ -1,0 +1,83 @@
+<div  id="payment-options">
+    <div class="card el-container mt-3 mb-3">
+        <h5 class="card-header">Payment Options</h5>
+        <div class="card-body">
+            <form id="options">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <%- include('commonPaymentOptions') %>       
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="3DS form-check-input" type="checkbox" id="3DS">
+                                    <label class="form-check-label" for="3DS">Execute 3DS</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="3DS form-check-input" type="checkbox" id="allow3DS2" disabled>
+                                    <label class="form-check-label" for="allow3DS2">Allow 3DS2</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="radio-block mb-3">
+                            <p>Recurring Processing Model</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurringProcessingModel" id="none"
+                                    value="" checked>
+                                <label class="form-check-label" for="none">
+                                    None
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurringProcessingModel" id="cardOnFile"
+                                    value="CardOnFile">
+                                <label class="form-check-label" for="cardOnFile">
+                                    Card On File
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurringProcessingModel"
+                                    id="subscription" value="Subscription">
+                                <label class="form-check-label" for="subscription">
+                                    Subscription
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="recurringProcessingModel"
+                                    id="unscheduledCard" value="UnscheduledCardOnFile">
+                                <label class="form-check-label" for="unscheduledCard">
+                                    Unscheduled Card On File
+                                </label>
+                            </div>
+                            
+                        </div>
+                        <div class="radio-block mb-3">
+                            <p>Shopper Interaction</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="shopperInteraction" id="Ecommerce"
+                                    value="Ecommerce" checked>
+                                <label class="form-check-label" for="Ecommerce">
+                                    Ecommerce
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="shopperInteraction" id="ContAuth"
+                                    value="ContAuth">
+                                <label class="form-check-label" for="ContAuth">
+                                    ContAuth
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Reload</button>
+                    </div>     
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

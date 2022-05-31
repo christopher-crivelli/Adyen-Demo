@@ -1,0 +1,70 @@
+<h2 class="mb-3">Modifications</h2>
+    <div class="modification-body mb-3">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active modifications" id="pills-capture-tab" data-bs-toggle="pill" data-bs-target="#pills-capture" type="button" role="tab" aria-controls="pills-capture" aria-selected="true">Capture</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link modifications" id="pills-cancel-tab" data-bs-toggle="pill" data-bs-target="#pills-cancel" type="button" role="tab" aria-controls="pills-cancel" aria-selected="false">Cancel</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link modifications" id="pills-refund-tab" data-bs-toggle="pill" data-bs-target="#pills-refund" type="button" role="tab" aria-controls="pills-refund" aria-selected="false">Refund</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link modifications" id="pills-reversal-tab" data-bs-toggle="pill" data-bs-target="#pills-reversal" type="button" role="tab" aria-controls="pills-reversal" aria-selected="false">Reversal</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link modifications" id="pills-amountUpdate-tab" data-bs-toggle="pill" data-bs-target="#pills-amountUpdate" type="button" role="tab" aria-controls="pills-amountUpdate" aria-selected="false">Amount Update</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-capture" role="tabpanel" aria-labelledby="pills-capture-tab">
+                <%- include('../modifications/capture') %>
+            </div>
+            <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">
+    
+            </div>
+            <div class="tab-pane fade" id="pills-refund" role="tabpanel" aria-labelledby="pills-refund-tab">
+    
+            </div>
+            <div class="tab-pane fade" id="pills-reversal" role="tabpanel" aria-labelledby="pills-reversal-tab">
+    
+            </div>
+            <div class="tab-pane fade" id="pills-amountUpdate" role="tabpanel" aria-labelledby="pills-amountUpdate-tab">
+    
+            </div>
+          </div>
+    </div>
+    <div class="modification-response">
+        <div class="accordion mb-4" id="accordionModification">
+            <div class="accordion-item">  
+                <h2 class="accordion-header" id="headingRequestModification">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseRequestModification" aria-expanded="false" aria-controls="collapseOne">
+                        Modification Request
+                    </button>
+                </h2>
+                <div id="collapseRequestModification" class="accordion-collapse collapse" aria-labelledby="headingRequestModification"
+                    data-bs-parent="#accordionModification">
+                    <div class="accordion-body">
+                        <pre id="payment-requestModification">Modify a payment to see the request body</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="responseHeadingModification">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseResponseModification" aria-expanded="false" aria-controls="collapseResponseModification">
+                        Modification Response
+                    </button>
+                </h2>
+                <div id="collapseResponseModification" class="accordion-collapse collapse" aria-labelledby="responseHeadingModification"
+                    data-bs-parent="#accordionModification">
+                    <div class="accordion-body">
+                        <pre id="payment-responseModification">Modify a payment to see the response</pre>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>

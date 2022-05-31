@@ -1,0 +1,108 @@
+.default {
+  --container-background: #f3f6f9;
+  --color-button-background: #bdbdbd;
+  --color-button-text: #fff;
+}
+
+.theme-green {
+  --container-background: #f3f6f9;
+  --color-background: #fff;
+  --color-button-text: #fff;
+  --color-text: #0ABF53;
+  --color-primary: #0ABF53;
+  --color-primary-dark: #00AA75;
+  --color-highlight: #0ABF53;
+  --color-highlight-dark: #005CC0;
+  --color-button-background: #0ABF53;
+  --field-background: #fff;
+  --color-alt-text: #2F4858;
+}
+
+.theme-dark {
+  --container-background: #000000;
+  --color-background: #424242;
+  --color-primary: #385465;
+  --color-button-text: #fff;
+  --color-text: #fff;
+  --color-alt-text: #fff;
+  --color-primary-dark: #212121;
+  --color-highlight: #FAFAFA;
+  --color-highlight-dark: #005CC0;
+  --color-button-background: #385465;
+  --field-background: #757575;
+}
+
+#container {
+  padding: 20px 0;
+  /* background-color: var(--container-background); */
+  min-height: 60vh;
+}
+
+#render-payment {
+  background-color: var(--container-background);
+  min-height: 50vh
+}
+
+.nav-link.active.theme-select {
+  background-color: var(--color-button-background) !important;
+  color: var(--color-button-text) !important;
+}
+
+.theme .adyen-checkout__payment-method {
+  background-color: var(--color-background);
+}
+
+.theme .adyen-checkout__payment-method__name,
+.theme .adyen-checkout__payment-method__name--selected {
+  color: var(--color-alt-text);
+}
+
+.theme .adyen-checkout__button--pay {
+  background-color: var(--color-primary);
+  color: var(--color-button-text);
+}
+
+.theme .adyen-checkout__button--pay:hover,
+active,
+visited {
+  background-color: var(--color-primary-dark);
+}
+
+.theme .adyen-checkout__payment-method__radio.adyen-checkout__payment-method__radio--selected {
+  background-color: var(--color-primary);
+}
+
+.theme .adyen-checkout__input {
+  background: var(--field-background);
+}
+
+.theme .adyen-checkout__input--focus,
+.theme .adyen-checkout__input--focus:hover,
+.theme .adyen-checkout__input:active,
+.theme .adyen-checkout__input:active:hover,
+.theme .adyen-checkout__input:focus,
+.theme .adyen-checkout__input:focus:hover {
+  box-shadow: 0 0 0 2px var(--color-highlight);
+  border: 1px solid var(--color-primary-dark);
+}
+
+.theme .adyen-checkout__label__text {
+  color: var(--color-text);
+}
+
+.theme .adyen-checkout__label--focused .adyen-checkout__label__text {
+  color: var(--color-highlight);
+}
+
+.theme .adyen-checkout__status {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.theme .cc-label {
+  color: var(--color-text);
+}
+
+.theme #custom-card-card .card-body {
+  background-color: var(--color-background);
+}

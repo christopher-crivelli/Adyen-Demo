@@ -1,0 +1,73 @@
+<div class="mb-3 row">
+    <label for="pspReference" class="col-form-label">PSP Reference</label>
+    <div class="input-group">
+        <input class="input-group-text" id="payment-status" placeholder="Status" readonly></input>
+        <input type="input" class="form-control" id="pspReference">
+        <button class="btn btn-outline-secondary" type="button" id="copyPsp">Copy</button>
+        
+    </div>
+    <p class="requestTime" id="requestTime"></p>
+</div>
+<div class="accordion mb-4" id="accordionRequest">
+    <div class="accordion-item">  
+        <h2 class="accordion-header" id="headingRequest">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseRequest" aria-expanded="false" aria-controls="collapseOne">
+                Payment Request
+            </button>
+        </h2>
+        <div id="collapseRequest" class="accordion-collapse collapse" aria-labelledby="headingRequest"
+            data-bs-parent="#accordionRequest">
+            <div class="accordion-body">
+                <pre id="payment-request">Submit a payment to see the request body</pre>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="responseHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseResponse" aria-expanded="false" aria-controls="collapseResponse">
+                Payment Response
+            </button>
+        </h2>
+        <div id="collapseResponse" class="accordion-collapse collapse" aria-labelledby="responseHeading"
+            data-bs-parent="#accordionRequest">
+            <div class="accordion-body">
+                <pre id="payment-response">Submit a payment to see the response</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="accordion mb-4 display-none" id="accordionDetailsRequest">
+    <div class="accordion-item">  
+        <h2 class="accordion-header" id="headingDetailsRequest">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseDetailsRequest" aria-expanded="false" aria-controls="collapseOne">
+                Payment Details Request
+            </button>
+        </h2>
+        <div id="collapseDetailsRequest" class="accordion-collapse collapse" aria-labelledby="headingDetailsRequest"
+            data-bs-parent="#accordionDetailsRequest">
+            <div class="accordion-body">
+                <pre id="details-request"></pre>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="responseDetailsHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseDetailsResponse" aria-expanded="false" aria-controls="collapseDetailsResponse">
+                Payment Details Response
+            </button>
+        </h2>
+        <div id="collapseDetailsResponse" class="accordion-collapse collapse" aria-labelledby="responseDetailsHeading"
+            data-bs-parent="#accordionDetailsRequest">
+            <div class="accordion-body">
+                <pre id="details-response">The /payments/details response will appear here.</pre>
+            </div>
+        </div>
+    </div>
+</div>

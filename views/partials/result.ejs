@@ -1,0 +1,11 @@
+<div id="modifications-container">
+    <% if(currentPage==='checkout' || currentPage === 'customcard'){ %>
+        <%- include('paymentRequestResponse'); %>
+    <% } else if(currentPage==='sessions'){ %>
+        <%- include('sessionsRequestResponse'); %>
+    <% } %>
+
+    <% if(currentPage==='checkout'){ %>
+        <!--<%- include('modifications') %> -->
+    <% } %>
+</div>

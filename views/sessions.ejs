@@ -1,0 +1,49 @@
+<%- include('partials/header'); %>
+
+    <h2 class="mt-3">Sessions Payments</h2>
+    <%- include ('partials/paymentOptions'); %>
+        <div class="row">
+            <div class="col-sm-6">
+                <%- include('partials/paymentMethods') %>
+            </div>
+        </div>
+
+        <div class="row" style="border-top: 1px solid #f3f6f9;">
+            <div class="col-md-6" id="render-payment">
+                <div id="container" class="theme-default">
+                    <div id="component-container" class="el-container">
+                        <div class="theme-row">
+                            <ul class="nav nav-pills mb-3 theme-select" id="pills-tab-theme" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link theme-select" id="pills-default-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-default" type="button" role="tab"
+                                        aria-controls="pills-default" aria-selected="true">Default</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link theme-select" id="pills-green-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-green" type="button" role="tab"
+                                        aria-controls="pills-green" aria-selected="true">Green</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link theme-select" id="pills-dark-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-dark" type="button" role="tab" aria-controls="pills-dark"
+                                        aria-selected="false">Dark</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <%- include('partials/result'); %>
+            </div>
+        </div>
+
+        <script src="js/themes.js"></script>
+        <script src="js/sessions.js"></script>
+
+
+        </main>
+
+        <%- include ('partials/footer'); %>

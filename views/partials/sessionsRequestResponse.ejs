@@ -1,0 +1,36 @@
+<div class="accordion mb-4" id="accordionRequest">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingRequest">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseRequest" aria-expanded="false" aria-controls="collapseOne">
+                Sessions Request
+            </button>
+        </h2>
+        <div id="collapseRequest" class="accordion-collapse collapse" aria-labelledby="headingRequest"
+            data-bs-parent="#accordionRequest">
+            <div class="accordion-body">
+                <pre id="sessions-request"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="responseHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseResponse" aria-expanded="false" aria-controls="collapseResponse">
+                Sessions Response
+            </button>
+        </h2>
+        <div id="collapseResponse" class="accordion-collapse collapse" aria-labelledby="responseHeading"
+            data-bs-parent="#accordionRequest">
+            <div class="accordion-body">
+                <pre id="sessions-response"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <input class="input-group-text" id="payment-status" placeholder="Result Code" readonly style="width:100%"></input>
+    <p class="requestTime" id="requestTime"></p>
+</div>
