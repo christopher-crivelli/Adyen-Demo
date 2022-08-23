@@ -63,6 +63,25 @@ const makePayment = (data) => {
         });
 }
 
+// Makes a request to additional details 
+const postAdditionalDetails = async (payload) => {
+    // Updates the additional details response on the DOM and saves to local storage
+    updateDetailsRequest(payload);
+    saveToLS('checkout-details-request', formatJSON(payload));
+
+    // Show additional details request/response accordions
+    showAdditionalDetails();
+
+    // Makes API call to /payments/details
+    const paymentDetailsResponse = await postRequest('/additionalDetails', payload);
+
+    // Save response to local storage and render on the DOM 
+    saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse));
+    updateDetailsResponse(paymentDetailsResponse);
+
+    return paymentDetailsResponse;
+}
+
 async function handleOnChange(state, _passedComponent) {
     console.log("state.errors", state.errors);
     if (state.isValid === true) {
@@ -283,8 +302,6 @@ const resetPage = async () => {
 
 };
 
-
-
 // Page load
 window.addEventListener('load', async e => {
     // Retrieves fields from Local Storage and sets them on the DOM (status, pspRef, etc.)
@@ -315,6 +332,7 @@ const swapColor = function (basecolor) {
 };
 
 window.onload = function () {
+
     const name = document.getElementById('name');
     const output = document.getElementById('output');
     const ccsingle = document.getElementById('ccsingle');

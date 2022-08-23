@@ -88,7 +88,9 @@ pre {
   }
 }
 
-
+.dropdown-menu li {
+  cursor: pointer;
+}
 
 .badge {
   margin-left: 5px;
@@ -98,6 +100,20 @@ pre {
   display: inline-block;
   font-weight: 600;
   padding: 6px 12px;
+  width: fit-content;
+}
+
+#navbarDropdown {
+  opacity: 0;
+  transition: opacity 500;
+  margin-left: 5px;
+  background-color: rgba(10, 191, 82, 0.879);
+  border-radius: 6px;
+  color: #ffffff !important;
+  display: inline-block;
+  font-weight: 400;
+  padding: 6px 12px;
+  letter-spacing: .5px;
   width: fit-content;
 }
 
@@ -127,7 +143,7 @@ pre {
   height: 24px;
 }
 
-#modifications-container {
+#result-container {
   padding: 15px;
 }
 
@@ -163,26 +179,36 @@ pre {
 }
 
 #payment-status {
-  width:150px;
+  width:230px;
 }
 
-#payment-status.authorised {
+.authorised #payment-status {
   background-color: #0ABF53;
   color: #fff;
 }
 
-#payment-status.refused {
+.authenticationnotrequired #payment-status {
+  background-color: #0ABF53;
+  color: #fff;
+}
+
+.authenticationfinished #payment-status {
+  background-color: #0ABF53;
+  color: #fff;
+}
+
+.refused #payment-status {
   background-color: #ff3838;
   color: #fff;
 }
 
-#payment-status.error {
+.error #payment-status {
   background-color: #ff3838;
   color: #fff;
 }
 
-#payment-status.identifyshopper, #payment-status.challengeshopper,
- #payment-status.redirectshopper, #payment-status.pending {
+.identifyshopper #payment-status, .challengeshopper #payment-status,
+.redirectshopper #payment-status, .pending #payment-status{
   background-color:#2dccff;
   color:#fff;
 }
@@ -523,4 +549,90 @@ pre {
 .creditcard.flipped {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
+}
+
+
+.dropdown-el {
+  position: absolute;
+  display: inline-block;
+  min-height: 2em;
+  max-height: 2em;
+  top: .25em;
+  right: 0em;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--color-button-text);
+  outline: none;
+  border: 0.06em solid transparent;
+  border-radius: 1em;
+  background-color: var(--color-button-background);
+  transition: 0.3s all ease-in-out;
+}
+.dropdown-el input:focus + label {
+  background: var(--field-background);
+}
+.dropdown-el input {
+  width: 1px;
+  height: 1px;
+  display: inline-block;
+  position: absolute;
+  opacity: 0.01;
+}
+.dropdown-el label {
+  border-top: 0.06em solid var(--color-primary);
+  display: block;
+  height: 2em;
+  line-height: 2em;
+  padding-left: 1em;
+  padding-right: 3em;
+  cursor: pointer;
+  position: relative;
+}
+.dropdown-el label:nth-child(2) {
+  margin-top: 2em;
+  border-top: 0.06em solid var(--color-primary);
+}
+.dropdown-el input:checked + label {
+  display: block;
+  border-top: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.dropdown-el input:checked + label:nth-child(2) {
+  margin-top: 0;
+  position: relative;
+}
+.dropdown-el::after {
+  content: "";
+  position: absolute;
+  right: 0.8em;
+  top: 0.9em;
+  border: 0.3em solid var(--container-background);
+  border-color: var(--container-background) transparent transparent transparent;
+
+}
+.dropdown-el.expanded {
+  border: 0.06em solid var(--color-primary);
+  background: var(--field-background);
+  border-radius: 0.25em;
+  padding: 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
+  max-height: 15em;
+}
+.dropdown-el.expanded label {
+  color:var(--color-dropdown-text);
+}
+.dropdown-el.expanded label:hover {
+  color: var(--color-dropdown-text);
+}
+.dropdown-el.expanded input:checked + label {
+  color: var(--color-dropdown-text);
+}
+.dropdown-el.expanded::after {
+  transform: rotate(-180deg);
+  top: 0.55em;
+  color: #fff
 }

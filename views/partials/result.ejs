@@ -1,8 +1,10 @@
-<div id="modifications-container">
+<div id="result-container">
     <% if(currentPage==='checkout' || currentPage === 'customcard'){ %>
         <%- include('paymentRequestResponse'); %>
     <% } else if(currentPage==='sessions'){ %>
         <%- include('sessionsRequestResponse'); %>
+    <% } else if(currentPage==='authonly'){ %>
+        <%- include('authOnlyRequestResponse'); %>
     <% } %>
 
     <% if(currentPage==='checkout'){ %>

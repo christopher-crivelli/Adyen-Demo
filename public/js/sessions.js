@@ -1,5 +1,7 @@
 const paymentComplete = (result, _passedComponent) => {
   const {resultCode} = result;
+
+  console.log(result);
   
   // Set status on dropin 
   if (type === 'dropin') {
@@ -73,11 +75,17 @@ const renderComponent = async (session) => {
 //////////////////
 
 const getSession = async () => {
-  const payload = {};
-  payload['countryCode'] = getCountryCode();
-  payload['shopperReference'] = getShopperReference();
-  payload['amount'] = getAmount();
-  payload['merchantReference'] = getMerchantReference();
+  let payload = {};
+  payload = updatePayloadWithSelectedOptions(payload);
+
+  // Line items for Klarna
+  payload['lineItems'] = generateLineItems();
+  payload['deliveryAddress'] = generateAddress();
+  payload['billingAddress'] = generateAddress();
+  payload['shopperEmail'] = 'test@email.com';
+  payload['shopperName'] = generateShopperName();
+  payload['telephoneNumber'] = '5555555555'
+  
 
   
   const sessionsResponse = await postRequest('/sessions', payload);
@@ -141,6 +149,7 @@ const handleRedirect = async () => {
 }
 
 window.addEventListener('load', async e => {
+
   // Retrieves fields from Local Storage and sets them on the DOM (status, pspRef, etc.)
   getItemsFromLS();
 

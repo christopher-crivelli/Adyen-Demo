@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+    <h2 class="mt-3">HPP</h2>
+    <div class="container">
+        <form action="https://test.adyen.com/hpp/pay.shtml" method="POST">
+            <div>
+                <label for="currencyCode" class="form-label">Currency Code</label>
+                <input type="text" class="form-control" id="currencyCode" name="currencyCode" value="USD">
+            </div>
+            <div class="mt-2">
+                <label for="merchantAccount" class="form-label">Merchant Account</label>
+                <input type="text" class="form-control" id="merchantAccount" name="merchantAccount" value="Crivelli_MarketplaceUS_TEST">
+            </div>
+            <div class="mt-2">
+                <label for="merchantReference" class="form-label">Merchant Reference</label>
+                <input type="text" class="form-control" id="merchantReference" name="merchantReference" value="HPP-1">
+            </div>
+            <div class="mt-2">
+                <label for="sessionValidity" class="form-label">Session Validity</label>
+                <input type="text" class="form-control" id="sessionValidity" name="sessionValidity" value="2022-07-08T00:00:00">
+            </div>
+            <div class="mt-2">
+                <label for="paymentAmount" class="form-label">Payment Amount</label>
+                <input type="text" class="form-control" id="paymentAmount" name="paymentAmount" value="1000">
+            </div>
+            <div class="mt-2">
+                <label for="skinCode" class="form-label">Skin Code</label>
+                <input type="text" class="form-control" id="skinCode" name="skinCode" value="xKcJVAL1">
+            </div>
+            <div class="mt-2">
+                <label for="shopperReference" class="form-label">Shopper Reference</label>
+                <input type="text" class="form-control" id=shopperReference" name="shopperReference" value="HPP-shopper1" />
+            </div>
+            <div class="mt-2">
+                <label for="merchantSig" class="form-label">Signature</label>
+                <input type="text" class="form-control" id="merchantSig" name="merchantSig" value="+b2Rt4c6BeLjFB8fEEfi/CcB2ArA6RuT+qUeBcnvR9k=">
+            </div>
+            
+
+            <input type="hidden" name="split.api" value="1" />
+            <input type="hidden" name="split.nrOfItems" value="1" />
+            <input type="hidden" name="split.totalAmount" value="1000" />
+            <input type="hidden" name="split.currencyCode" value="USD" />
+            <input type="hidden" name="split.item1.amount" value="1000" />
+            <input type="hidden" name="split.item1.type" value="MarketPlace" />
+            <input type="hidden" name="split.item1.account" value="8816546137045639" />
+            <input type="hidden" name="split.item1.reference" value="Split-HPP-test" />
+            <input type="hidden" name="split.item1.description" value="" />
+            <input type="hidden" name="recurringContract" value="ONECLICK,RECURRING" />
+            <input type="hidden" name="shopperEmail" value="test@email.com" />
+
+            <div class="mt-5">
+                <button style="width:100%" class="btn btn-primary" type="submit">Go to HPP</button>
+            </div>
+            
+        </form>
+    </div>
+    <%- include('partials/footer') %>

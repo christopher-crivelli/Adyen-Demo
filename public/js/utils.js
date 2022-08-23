@@ -3,8 +3,8 @@ let type;
 let component;
 let checkout;
 let merchantAccount;
-
-
+let version;
+const page = window.location.pathname.split("/")[1];
 
 // Default config 
 const config = {
@@ -14,9 +14,11 @@ const config = {
     amount: { currency: "EUR", value: 1000 }
 };
 
+
 ////////////////////
 // CHECKOUT APIS //
 //////////////////
+
 
 // Get payment methods
 const getPaymentMethods = async () => {
@@ -31,33 +33,46 @@ const getPaymentMethods = async () => {
         shopperReference: shopperReference
     });
 
-    return paymentMethodsResponse;
+    const response = paymentMethodsResponse.data;
+    const request = paymentMethodsResponse.request;
+
+    updateMethodsRequest(request);
+    updateMethodsResponse(response);
+
+    return response;
 
 };
 
-// Makes a request to additional details 
-const postAdditionalDetails = async (payload) => {
 
-    // Updates the additional details response on the DOM and saves to local storage
-    updateDetailsRequest(payload);
-    saveToLS('checkout-details-request', formatJSON(payload));
-
-    // Show additional details request/response accordions
-    showAdditionalDetails();
-
-    // Makes API call to /payments/details
-    const paymentDetailsResponse = await postRequest('/additionalDetails', payload);
-
-    // Save response to local storage and render on the DOM 
-    saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse));
-    updateDetailsResponse(paymentDetailsResponse);
-
-    return paymentDetailsResponse;
-}
 
 /////////////////////////////////
 // GET input values from DOM  //
 ///////////////////////////////
+
+// Get API Version 
+const getApiVersion = () => {
+    if(version){
+        return version;
+    } else {
+        version = 69;
+        return version;
+    }
+}
+
+const updateApiVersion = (newVersion) => {
+    console.log(`Version: ${version}. new version: ${newVersion}`)
+    if(version !== newVersion) {
+        saveToLS('version',newVersion);
+        version = newVersion;
+    }
+
+    dropdownOptions = document.getElementById('version').children;
+    for(let i of dropdownOptions){
+        if (i.id===newVersion){
+            i.checked = true
+        }
+    }
+}
 
 const getShopperReference = () => {
     return document.getElementById('shopperReference').value;
@@ -117,22 +132,45 @@ const getModificationCurrency = () => {
     return document.getElementById('modification-currency').value || 'EUR';
 };
 
+const updatePayloadWithSelectedOptions = (data = {}) => {
+    data['threeDS'] = getThreeDS();
+    data['allow3DS2'] = getAllow3DS2();
+    data['recurringProcessingModel'] = getTokenizationSetting();
+    data['shopperInteraction'] = getShopperInteraction();
+    data['shopperReference'] = getShopperReference();
+    data['amount'] = getAmount();
+    data['countryCode'] = getCountryCode();
+    data['merchantReference'] = getMerchantReference();
+    return data;
+};
+
 ///////////////////////////
 // UPDATE DOM FUNCTIONS //
 /////////////////////////
 
 const updateStatus = resultCode => {
-    const paymentStatus = document.getElementById('payment-status')
-    const oldPaymentStatus = paymentStatus.value;
-    paymentStatus.value = resultCode;
+    const paymentStatus = document.getElementById('payment-status');
+    const container = document.getElementById('result-container');
+    let oldPaymentStatus;
+
+    try{
+        oldPaymentStatus = paymentStatus.value;
+    } catch(e){
+        console.log(e);
+    }
+    try{
+        paymentStatus.value = resultCode;
+    } catch(e){
+        console.log(e);
+    }
 
     try {
-        paymentStatus.classList.remove(oldPaymentStatus.toLowerCase());
+        container.classList.remove(oldPaymentStatus.toLowerCase());
     } catch (e) {
         console.log(e);
     }
     try {
-        paymentStatus.classList.add(resultCode.toLowerCase());
+        container.classList.add(resultCode.toLowerCase());
     } catch (e) {
         console.log(e);
     }
@@ -207,6 +245,25 @@ const hideAdditionalDetails = () => {
     }
 }
 
+const updateMethodsRequest = (request) => {
+    try{
+        const paymentMethodsRequest = document.getElementById('methods-request');
+        paymentMethodsRequest.innerText = formatJSON(request);
+    } catch(e) {
+        console.log(e);
+    }
+
+}
+
+const updateMethodsResponse = (response) => {
+    try {
+        const paymentMethodsResponse = document.getElementById('methods-response');
+        paymentMethodsResponse.innerText = formatJSON(response);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 // Clears the request and response from the DOM and local storage for additional details
 const clearAdditionalDetails = () => {
     document.getElementById('details-request').innerText = "";
@@ -248,9 +305,9 @@ const showToast = (header, message, type) => {
     $(`#liveToast`).toast('show')
 };
 
-/////////////////////////////
-// PAYMENT RELATED EVENTS //
-///////////////////////////
+///////////////////
+// PAYMENT DATA //
+/////////////////
 
 const generateLineItems = () => {
     const amount = getAmount();
@@ -321,14 +378,14 @@ const postRequest = async (url, payload) => {
         url,
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Checkout': getApiVersion()
         },
         body: JSON.stringify(payload),
         json: true
     });
 
     const result = await response.json();
-
     if (response.ok) {
         return result ? result : true;
     } else {
@@ -380,7 +437,7 @@ const filterArray = (array, property, value) => {
     return result;
 }
 
-const page = window.location.pathname.split("/")[1];
+
 
 const getRadioValue = name => {
     const radios = document.getElementsByName(name);
@@ -420,38 +477,39 @@ const updateType = (newType, reset = true) => {
 ////////////////////
 
 window.addEventListener('load', async e => {
+    if (page === 'authentication' || page === 'checkout' || page === 'customcard') {
+
+        updateApiVersion(getFromLS('version'));
+        
+        // Active version dropdown
+        $('#versionDropdown').dropdown()
+
+        // Version dropdown event listener 
+        document.getElementById('version').addEventListener('click', (event) => {
+            for (let i of event.target.attributes) {
+                if (i.nodeName === "for") {
+                    console.log(`updating version to ${i.value}`)
+                    updateApiVersion(i.value);
+                }
+            }
+        });
+    }
+
     // Submits the payment options and gets payment methods again
-    document.getElementById("options").addEventListener('submit', async (event) => {
-        event.preventDefault();
-        try {
-            component.unmount();
-        } catch (e) {
-            console.log(e);
-        }
-        resetPage();
-    });
-
-    // // Submits the capture request
-    // try {
-    //     document.getElementById("capture-form").addEventListener('submit', (event) => {
-    //         event.preventDefault();
-    //         const value = getModificationAmount();
-    //         const currency = getModificationCurrency();
-    //         const pspReference = getPspReference();
-    //         const payload = { value, currency, pspReference };
-    //         document.getElementById('payment-requestModification').innerText = JSON.stringify(payload, null, 4);
-    //         postRequest('/capture', payload)
-    //             .then(response => {
-    //                 document.getElementById('payment-responseModification').innerText = JSON.stringify(response, null, 4);
-    //             })
-    //             .catch(e => {
-    //                 console.log(e);
-    //             });
-    //     });
-    // } catch (e) {
-    //     console.log(e);
-    // }
-
+    try{
+        document.getElementById("options").addEventListener('submit', async (event) => {
+            event.preventDefault();
+            try {
+                component.unmount();
+            } catch (e) {
+                console.log(e);
+            }
+            resetPage();
+        });
+    } catch(e){
+        console.log(e);
+    }
+    
     try {
         document.getElementById("3DS").addEventListener('click', (event) => {
             const allow3DS2 = document.getElementById("allow3DS2");
@@ -487,6 +545,44 @@ window.addEventListener('load', async e => {
         console.log(e);
     }
 
+    const merchantDropdown = document.getElementById('merchant-dropdown');
+
     // Loads the merchant account 
-}
-);
+    const merchantAccounts = JSON.parse(getFromLS('merchantAccounts')) || [];
+    merchantAccount = getFromLS('selectedMerchantAccount');
+    if (merchantAccounts.length > 0 ){
+        const dropdown = document.getElementById('merchant-dropdown');
+
+        for (let i of merchantAccounts){
+            const newLI = document.createElement('LI');
+            const newLink = document.createElement('a');
+            newLink.classList.add('dropdown-item');
+            newLink.id=`merchant-${i}`;
+            newLink.innerText=i;
+            newLink.classList.add('active');
+            const newMenuItem = newLI.appendChild(newLink);
+
+            dropdown.insertBefore(newMenuItem, dropdown.firstChild);
+        }
+
+        document.getElementById('navbarDropdown').innerText = merchantAccount;
+        
+    } else {
+        // showAddMerchantModal();
+    }
+    document.getElementById('navbarDropdown').style= 'opacity:100%';
+
+    try{
+        $('.dropdown-el').click(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).toggleClass('expanded');
+            $('#'+$(e.target).attr('for')).prop('checked',true);
+          });
+          $(document).click(function() {
+            $('.dropdown-el').removeClass('expanded');
+          });
+    } catch(e){
+        console.log(e);
+    }
+})

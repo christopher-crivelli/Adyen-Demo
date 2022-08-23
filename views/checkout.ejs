@@ -1,7 +1,42 @@
 <%- include('partials/header'); %>
 
     <h2 class="mt-3">Checkout Payments</h2>
+
     <%- include ('partials/paymentOptions'); %>
+        <div class="el-container">
+            <div class="accordion mb-4" id="accordionMethodsRequest">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingMethodsRequest">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMethodsRequest" aria-expanded="false" aria-controls="collapseOne">
+                            Payment Methods Request
+                        </button>
+                    </h2>
+                    <div id="collapseMethodsRequest" class="accordion-collapse collapse"
+                        aria-labelledby="headingMethodsRequest" data-bs-parent="#accordionMethodsRequest">
+                        <div class="accordion-body">
+                            <pre id="methods-request"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingMethodsResponse">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMethodsResponse" aria-expanded="false"
+                            aria-controls="collapseMethodsResponse">
+                            Payment Methods Response
+                        </button>
+                    </h2>
+                    <div id="collapseMethodsResponse" class="accordion-collapse collapse"
+                        aria-labelledby="headingPayentResponse" data-bs-parent="#accordionRequest">
+                        <div class="accordion-body">
+                            <pre id="methods-response"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-6">
                 <%- include('partials/paymentMethods') %>
@@ -12,24 +47,13 @@
             <div class="col-md-6" id="render-payment">
                 <div id="container" class="theme-default">
                     <div id="component-container" class="el-container">
-                        <div class="theme-row">
-                            <ul class="nav nav-pills mb-3 theme-select" id="pills-tab-theme" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link theme-select" id="pills-default-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-default" type="button" role="tab"
-                                        aria-controls="pills-default" aria-selected="true">Default</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link theme-select" id="pills-green-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-green" type="button" role="tab"
-                                        aria-controls="pills-green" aria-selected="true">Green</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link theme-select" id="pills-dark-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-dark" type="button" role="tab" aria-controls="pills-dark"
-                                        aria-selected="false">Dark</button>
-                                </li>
-                            </ul>
+                        <div class="clearfix">
+                            <div style="float:left">
+                                <%- include('partials/themes'); %>
+                            </div>
+
+                            <%- include('partials/versions') %>
+
                         </div>
                     </div>
                 </div>

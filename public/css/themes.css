@@ -2,6 +2,9 @@
   --container-background: #f3f6f9;
   --color-button-background: #bdbdbd;
   --color-button-text: #fff;
+  --color-dropdown-text: #424242;
+  --field-background: #fff;
+  --color-primary: #00112c;
 }
 
 .theme-green {
@@ -16,6 +19,7 @@
   --color-button-background: #0ABF53;
   --field-background: #fff;
   --color-alt-text: #2F4858;
+  --color-dropdown-text: #0ABF53;
 }
 
 .theme-dark {
@@ -30,6 +34,7 @@
   --color-highlight-dark: #005CC0;
   --color-button-background: #385465;
   --field-background: #757575;
+  --color-dropdown-text: #fff;
 }
 
 #container {

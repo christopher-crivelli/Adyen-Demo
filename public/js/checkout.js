@@ -1,3 +1,5 @@
+
+
 // Handles the redirect result from a redirect payment method (e.g. klarna) or 3DS1
 const handleRedirect = async () => {
   const payload = {
@@ -28,15 +30,8 @@ const handleOnSubmit = async (state, _passedComponent) => {
   // Clears the additional details and removes from LS 
   clearAdditionalDetails();
 
-  const data = state.data;
-  data['threeDS'] = getThreeDS();
-  data['allow3DS2'] = getAllow3DS2();
-  data['recurringProcessingModel'] = getTokenizationSetting();
-  data['shopperInteraction'] = getShopperInteraction();
-  data['shopperReference'] = getShopperReference();
-  data['amount'] = getAmount();
-  data['countryCode'] = getCountryCode();
-  data['merchantReference'] = getMerchantReference();
+  let data = state.data;
+  data = updatePayloadWithSelectedOptions(data);
 
   // Klarna config
   if (state.data.paymentMethod.type.includes('klarna')) {
@@ -55,6 +50,8 @@ const handleOnSubmit = async (state, _passedComponent) => {
 
   postRequest('/makePayment', data)
     .then(response => {
+
+      // Updates the payment request on the dom 
       updatePaymentRequest(response.request);
       saveToLS('checkout-request', formatJSON(response.request));
 
@@ -91,6 +88,25 @@ const handleAdditionalDetails = async (state, component) => {
     component.setStatus('success', { message: 'Reload to make another payment request.' });
     additionalDetailsComplete(response);
   };
+}
+
+// Makes a request to additional details 
+const postAdditionalDetails = async (payload) => {
+  // Updates the additional details response on the DOM and saves to local storage
+  updateDetailsRequest(payload);
+  saveToLS('checkout-details-request', formatJSON(payload));
+
+  // Show additional details request/response accordions
+  showAdditionalDetails();
+
+  // Makes API call to /payments/details
+  const paymentDetailsResponse = await postRequest('/additionalDetails', payload);
+
+  // Save response to local storage and render on the DOM 
+  saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse));
+  updateDetailsResponse(paymentDetailsResponse);
+
+  return paymentDetailsResponse;
 }
 
 // Triggered when the additional details call is made 
@@ -167,7 +183,6 @@ const paymentComplete = (response) => {
     saveToLS('checkout-resultCode', resultCode);
   }
 
-
   // Opens the payment response accordion
   showPaymentResponse();
 
@@ -224,7 +239,7 @@ const createDropinConfig = paymentMethodsResponse => {
         hideCVC: false
       },
       card: {
-        hasHolderName: false,
+        hasHolderName: true,
         holderNameRequired: false,
         enableStoreDetails: false,
         billingAddressRequired: false,
@@ -292,7 +307,16 @@ const createComponentConfig = paymentMethodsResponse => {
 
 const renderComponent = async (paymentMethodsResponse) => {
   checkout = await AdyenCheckout(createComponentConfig(paymentMethodsResponse));
-  component = checkout.create(type).mount('#component-container');
+  component = checkout.create(type);
+
+  component
+    .isAvailable()
+    .then(() => {
+    component.mount('#component-container');
+  })
+  .catch(e =>{
+    console.log(e);
+  })
 }
 
 // Gets all required items from LS and updates them on the dom for page load.
@@ -366,12 +390,14 @@ const resetPage = async () => {
 
 // Page load
 window.addEventListener('load', async e => {
+
   // Retrieves fields from Local Storage and sets them on the DOM (status, pspRef, etc.)
   getItemsFromLS();
 
   // Returns true if redirect result is present
   const isRedirect = /redirectResult/.test(document.location.search);
 
+  console.log(`Redirect: ${isRedirect}`)
   // Gets the integration type from LS 
   type = getFromLS('type');
 
