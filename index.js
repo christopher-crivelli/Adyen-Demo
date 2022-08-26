@@ -281,7 +281,7 @@ app.post('/authentication', (req,res)=> {
       const response = {};
       response['data'] = detailsResponse;
       response['request'] = payload;
-      res.redirect(302, `/authentication?${JSON.stringify(detailsResponse)}`);
+      res.redirect(302, `/authentication?request=${JSON.stringify(payload)}&&&response=${JSON.stringify(detailsResponse)}`);
     })
     .catch(e => {
       const response = {};

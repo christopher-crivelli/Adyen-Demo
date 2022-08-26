@@ -309,14 +309,8 @@ const renderComponent = async (paymentMethodsResponse) => {
   checkout = await AdyenCheckout(createComponentConfig(paymentMethodsResponse));
   component = checkout.create(type);
 
-  component
-    .isAvailable()
-    .then(() => {
+
     component.mount('#component-container');
-  })
-  .catch(e =>{
-    console.log(e);
-  })
 }
 
 // Gets all required items from LS and updates them on the dom for page load.

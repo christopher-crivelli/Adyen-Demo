@@ -2,19 +2,36 @@
 
 // Handles the redirect result from a redirect payment method (e.g. klarna) or 3DS1
 const handleRedirect = async () => {
-    const payload = {
-        authOnly: true,
-        details: {
-            redirectResult: parseQueryParameter('redirectResult')
-        }
-    };
 
-    const paymentDetailsResponse = await postAdditionalDetails(payload);
-    additionalDetailsComplete(paymentDetailsResponse.data);
+    // If redirect result, submit to /payments/details
+    if(/redirectResult/.test(document.location.search)){
+        const payload = {
+            details: {
+                redirectResult: parseQueryParameter('redirectResult')
+            }
+        };
 
-    // clears the redirect result from the url to avoid sending again on refresh
-    const newURL = window.location.href.split("?")[0].split("/")[3];
-    window.history.pushState({}, document.title, "/" + newURL);
+        // make payments details call
+        const paymentDetailsResponse = await postAdditionalDetails(payload);
+        additionalDetailsComplete(paymentDetailsResponse.data);
+
+    }
+    
+    if(/response/.test(document.location.search)){
+        
+        // IF authentication only response
+        const response = JSON.parse(parseQueryParameter('response'));
+        saveToLS('auth-details-response', formatJSON(response));
+        updateDetailsResponse(response);
+
+        const request = JSON.parse(parseQueryParameter('request'));
+        saveToLS('auth-details-request', formatJSON(request));
+        updateDetailsRequest(request);
+
+        additionalDetailsComplete(response);
+        showAdditionalDetails();
+        clearQueryParams();
+    }
 };
 
 // Makes a request to additional details 
@@ -30,7 +47,7 @@ const postAdditionalDetails = async (payload) => {
     const paymentDetailsResponse = await postRequest('/additionalDetails', payload);
 
     // Save response to local storage and render on the DOM 
-    saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse.data));
+    saveToLS('auth-details-response', formatJSON(paymentDetailsResponse.data));
     updateDetailsResponse(paymentDetailsResponse.data);
     updateDetailsRequest(paymentDetailsResponse.request)
     return paymentDetailsResponse;
@@ -354,7 +371,7 @@ const getItemsFromLS = () => {
     const detailsResponse = JSON.parse(getFromLS('auth-details-response'));
     updateDetailsResponse(detailsResponse);
 
-    if (detailsRequest && detailsResponse) showAdditionalDetails();
+    if (detailsRequest || detailsResponse) showAdditionalDetails();
 
 }
 
@@ -391,7 +408,7 @@ window.addEventListener('load', async e => {
     getItemsFromLS();
 
     // Returns true if redirect result is present
-    const isRedirect = /redirectResult/.test(document.location.search);
+    const isRedirect = /redirectResult/.test(document.location.search) || /response/.test(document.location.search);
 
     console.log(`Redirect: ${isRedirect}`)
     // Gets the integration type from LS 

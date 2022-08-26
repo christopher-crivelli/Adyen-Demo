@@ -9,58 +9,20 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <%- include ('partials/commonPaymentOptions'); %>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="3DS form-check-input" type="checkbox" id="allow3DS2">
-                                            <label class="form-check-label" for="allow3DS2">Allow 3DS2</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="3DS form-check-input" type="checkbox" id="3DS" checked
-                                                style="display:none">
-                                        </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="3DS form-check-input" type="checkbox" id="allow3DS2">
+                                        <label class="form-check-label" for="allow3DS2">Allow 3DS2</label>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="radio-block mb-3">
-                                            <p>Recurring Processing Model</p>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="recurringProcessingModel" id="none" value="" checked>
-                                                <label class="form-check-label" for="none">
-                                                    None
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="recurringProcessingModel" id="cardOnFile" value="CardOnFile">
-                                                <label class="form-check-label" for="cardOnFile">
-                                                    Card On File
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="recurringProcessingModel" id="subscription"
-                                                    value="Subscription">
-                                                <label class="form-check-label" for="subscription">
-                                                    Subscription
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="recurringProcessingModel" id="unscheduledCard"
-                                                    value="UnscheduledCardOnFile">
-                                                <label class="form-check-label" for="unscheduledCard">
-                                                    Unscheduled Card On File
-                                                </label>
-                                            </div>
-                                        </div>
+                                <div class="col-sm-4">
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="3DS form-check-input" type="checkbox" id="3DS" checked
+                                            style="display:none">
                                     </div>
                                 </div>
-
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -118,7 +80,6 @@
                         <div style="float:left">
                             <%- include('partials/themes'); %>
                         </div>
-
                         <%- include('partials/versions') %>
                     </div>
                 </div>

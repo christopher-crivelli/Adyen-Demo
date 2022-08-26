@@ -305,6 +305,12 @@ const showToast = (header, message, type) => {
     $(`#liveToast`).toast('show')
 };
 
+const clearQueryParams = () => {
+    // clears the redirect result from the url to avoid sending again on refresh
+    const newURL = window.location.href.split("?")[0].split("/")[3];
+    window.history.pushState({}, document.title, "/" + newURL);
+}
+
 ///////////////////
 // PAYMENT DATA //
 /////////////////
@@ -400,14 +406,29 @@ const postRequest = async (url, payload) => {
 
 const parseQueryParameter = (qParameterKey) => {
     let query = window.location.search.substring(1);
-    let vars = query.split('&');
-    for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == qParameterKey) {
-            return decodeURIComponent(pair[1])
+    
+
+    if(qParameterKey === 'response' || qParameterKey === 'request'){
+        let vars = query.split('&&&');
+        console.log(vars);
+        for (let i = 0; i < vars.length; i++) {
+            let pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == qParameterKey) {
+                const newArr = pair.slice(1);
+                const result = newArr.join("");
+                return decodeURIComponent(result);
+            }
         }
+    } else {
+        let vars = query.split('&');
+        for (let i = 0; i < vars.length; i++) {
+            let pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == qParameterKey) {
+                return decodeURIComponent(pair[1])
+            }
+        }
+        console.warn('Query variable %s not found', qParameterKey);
     }
-    console.warn('Query variable %s not found', qParameterKey);
 };
 
 const getCurrentTime = () => {
@@ -437,8 +458,6 @@ const filterArray = (array, property, value) => {
     return result;
 }
 
-
-
 const getRadioValue = name => {
     const radios = document.getElementsByName(name);
     for (let radio of radios) {
@@ -447,8 +466,8 @@ const getRadioValue = name => {
 }
 
 const formatJSON = json => {
-    return JSON.stringify(json, null, 4)
-}
+    return JSON.stringify(json, null, 4);
+};
 
 // Updates the type of integration (e.g. dropin, card, etc.)
 const updateType = (newType, reset = true) => {
