@@ -88,6 +88,10 @@ app.get('/hpp', (req, res) => {
   res.render('hpp.ejs', { currentPage: 'hpp' });
 });
 
+app.get('/afp', (req, res) => {
+  res.render('afp.ejs', { currentPage: 'afp' });
+});
+
 /////////////////
 // MIDDLEWARE //
 ///////////////
@@ -192,13 +196,13 @@ app.post('/makePayment', (req, res) => {
     shopperReference,
     channel: 'Web',
     shopperStatement,
-    returnUrl: req.headers.referer,
+    returnUrl: "http://localhost:8080",
     origin: req.headers.referer,
     threeDSAuthenticationOnly: authOnly === true ? true : false
     }
   
 
-  postRequest(url, payload)
+  apiCall(url, payload)
     // Successful payment 
     .then(paymentResponse => {
       const response = {};
@@ -218,16 +222,17 @@ app.post('/makePayment', (req, res) => {
 });
 
 app.post('/additionalDetails', async (req, res) => {
-  const {details, authOnly} = req.body;
+  const {details, paymentData, authOnly} = req.body;
   // Stringify request body to pass to /payments/details
   const payload = {
-    details
+    details,
+    paymentData
   }
 
   const checkoutVersion = req.headers.checkout;
   const url = `${checkoutUrl}/v${checkoutVersion}/payments/details`;
 
-  postRequest(url, payload)
+  apiCall(url, payload)
     .then(detailsResponse => {
       const response = {};
       response['data'] = detailsResponse;
@@ -254,7 +259,7 @@ app.post('/disablePaymentMethod', (req, res) => {
     merchantAccount: MERCHANT_ACCOUNT
   };
 
-  postRequest(url, payload)
+  apiCall(url, payload)
     .then(response => {
       res.json({ response });
     })
@@ -265,18 +270,17 @@ app.post('/disablePaymentMethod', (req, res) => {
 
 // Post back for 3DS authentication
 app.post('/authentication', (req,res)=> {
-  const { MD, PaRes } = req.body;
+  const { MD, PaRes, paymentData } = req.body;
 
-  const url = `${checkoutUrl}/v67/payments/details`;
+  const url = `${checkoutUrl}/v51/payments/details`;
 
   const payload = {
     details:{
-      MD,
-      PaRes
     },
-    threeDSAuthenticationOnly:true
+    paymentData,
+    threeDSAuthenticationOnly: true
   }
-  postRequest(url, payload)
+  apiCall(url, payload)
     .then(detailsResponse => {
       const response = {};
       response['data'] = detailsResponse;
@@ -290,6 +294,24 @@ app.post('/authentication', (req,res)=> {
       response['message'] = e.message;
       res.redirect(302, '/authentication');
     })
+});
+
+app.post('/getAccountHolder', (req, res)=>{
+  const {accountHolderId} = req.body;
+  
+  // Get account holder 
+
+  // Get legal entities 
+
+  // Get transfer instruments 
+
+  // Get documents? 
+
+  // Get payment instruments 
+
+  // Get balance accounts
+
+  res.json({accountHolderId:accountHolderId});
 });
 
 
@@ -309,7 +331,7 @@ app.post('/capture', async (req, res) => {
     }
   };
 
-  const captureResponse = await postRequest(url, payload);
+  const captureResponse = await apiCall(url, payload);
   res.json(captureResponse);
 });
 
@@ -350,11 +372,31 @@ const createReferenceNumber = (prefix) => {
   return `${prefix}-${date}`;
 }
 
-const postRequest = async (url, payload) => {
+const apiCall = async (url, payload, system, method='POST') => {
+  let apiKey;
+
+  // Select API key based on system
+  switch (system) {
+        case 'lem':
+          apiKey = '';
+          break;
+        case 'vias':
+          apiKey = MARKETPLACE_API_KEY;
+          break;
+        case 'balance':
+          apiKey = BALANCE_API_KEY;
+          break;
+        default: 
+          apiKey = API_KEY;
+          break;
+  }
+
   const config = {
-    headers: { 'X-API-Key': API_KEY }
+    headers: { 'X-API-Key': apiKey }
   };
 
-  const res = await axios.post(url, payload, config);
-  return res.data;
+  if(method==='POST'){
+    const res = await axios.post(url, payload, config);
+    return res.data;
+  }
 }

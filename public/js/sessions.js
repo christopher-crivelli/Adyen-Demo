@@ -29,6 +29,14 @@ const paymentComplete = (result, _passedComponent) => {
 // DROPIN CONFIG // 
 //////////////////
 
+const handleOnFieldValid = state => {
+  console.log("field valid", state);
+}
+
+const cardConfiguration = {
+  onFieldValid: handleOnFieldValid
+};
+
 const createDropinConfig = (session) => {
   return {
     environment: 'test',
@@ -37,6 +45,9 @@ const createDropinConfig = (session) => {
     onPaymentCompleted: paymentComplete,
     onError: (error, component) => {
       console.error(error.name, error.message, error.stack, component);
+    },
+    paymentMethodsConfiguration: {
+      card: cardConfiguration
     }
   }
 }

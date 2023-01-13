@@ -22,7 +22,7 @@ const handleRedirect = async () => {
         // IF authentication only response
         const response = JSON.parse(parseQueryParameter('response'));
         saveToLS('auth-details-response', formatJSON(response));
-        updateDetailsResponse(response);
+        updateDetailsResponse(response, '200');
 
         const request = JSON.parse(parseQueryParameter('request'));
         saveToLS('auth-details-request', formatJSON(request));

@@ -9,7 +9,7 @@ const handleRedirect = async () => {
   };
 
   const paymentDetailsResponse = await postAdditionalDetails(payload);
-  additionalDetailsComplete(paymentDetailsResponse);
+  additionalDetailsComplete(paymentDetailsResponse.data);
 
   // clears the redirect result from the url to avoid sending again on refresh
   const newURL = window.location.href.split("?")[0].split("/")[3];
@@ -31,6 +31,7 @@ const handleOnSubmit = async (state, _passedComponent) => {
   clearAdditionalDetails();
 
   let data = state.data;
+  console.log(state);
   data = updatePayloadWithSelectedOptions(data);
 
   // Klarna config
@@ -81,12 +82,12 @@ const handleAdditionalDetails = async (state, component) => {
   // Makes the request to /payments/details
   const response = await postAdditionalDetails(state.data);
 
-  if (response.action) {
-    additionalDetailsComplete(response);
-    component.handleAction(response.action);
+  if (response.data.action) {
+    additionalDetailsComplete(response.data);
+    component.handleAction(response.data.action);
   } else {
     component.setStatus('success', { message: 'Reload to make another payment request.' });
-    additionalDetailsComplete(response);
+    additionalDetailsComplete(response.data);
   };
 }
 
@@ -103,8 +104,8 @@ const postAdditionalDetails = async (payload) => {
   const paymentDetailsResponse = await postRequest('/additionalDetails', payload);
 
   // Save response to local storage and render on the DOM 
-  saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse));
-  updateDetailsResponse(paymentDetailsResponse);
+  saveToLS('checkout-details-response', formatJSON(paymentDetailsResponse.data));
+  updateDetailsResponse(paymentDetailsResponse.data);
 
   return paymentDetailsResponse;
 }
@@ -244,7 +245,7 @@ const createDropinConfig = paymentMethodsResponse => {
         enableStoreDetails: false,
         billingAddressRequired: false,
         hideCVC: false,
-        name: "Credit or Debit Card",
+        name: "Credit Card",
       },
       threeDS2: { // Web Components 4.0.0 and above: sample configuration for the threeDS2 action type
         challengeWindowSize: '02'

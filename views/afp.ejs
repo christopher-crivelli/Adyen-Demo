@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+    <h2 class="mt-3">Adyen for Platforms</h2>
+
+    <div id="payment-options">
+        <div class="card el-container mt-3 mb-3">
+            <h5 class="card-header">AfP Entity Visualizer</h5>
+            <div class="card-body">
+                <form id="visualizeAfP">
+                    <div class="mb-3">
+                        <label for="accountHolderId" class="form-label">Account Holder ID</label>
+                        <input type="text" class="form-control" id="accountHolderId" placeholder="Enter account holder ID">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Reload</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <script src="node_modules/@jsplumb/util/js/jsplumb.util.umd.js"></script>
+    <script src="node_modules/@jsplumb/common/js/jsplumb.common.umd.js"></script>
+    <script src="node_modules/@jsplumb/core/js/jsplumb.core.umd.js"></script>
+    <script src="node_modules/@jsplumb/browser-ui/js/jsplumb.browser-ui.umd.js"></script>
+    <script src="node_modules/@jsplumbtoolkit/core/js/jsplumbtoolkit.core.umd.js"></script>
+    <script src="node_modules/@jsplumbtoolkit/templates/js/jsplumbtoolkit.templates-2.umd.js"></script>
+    <script src="node_modules/@jsplumbtoolkit/browser-ui/js/jsplumbtoolkit.browser-ui.umd.js"></script>
+    <script
+        src="node_modules/@jsplumbtoolkit/browser-ui-templates-2/js/jsplumbtoolkit.browser-ui-templates-2.umd.js"></script>
+    <script
+        src="node_modules/@jsplumbtoolkit/browser-ui-vanilla-2/js/jsplumbtoolkit.browser-ui-vanilla-2.umd.js"></script>
+        <script
+        src="js/afp.js"></script>
+    <%- include('partials/footer') %>
