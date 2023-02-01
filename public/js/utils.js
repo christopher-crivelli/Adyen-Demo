@@ -66,12 +66,17 @@ const updateApiVersion = (newVersion) => {
         version = newVersion;
     }
 
-    dropdownOptions = document.getElementById('version').children;
-    for(let i of dropdownOptions){
-        if (i.id===newVersion){
-            i.checked = true
+    try {
+        dropdownOptions = document.getElementById('version').children;
+        for(let i of dropdownOptions){
+            if (i.id===newVersion){
+                i.checked = true
+            }
         }
+    } catch (e) {
+        console.log(e);
     }
+    
 }
 
 const getShopperReference = () => {
@@ -499,19 +504,23 @@ window.addEventListener('load', async e => {
     if (page === 'authentication' || page === 'checkout' || page === 'customcard') {
 
         updateApiVersion(getFromLS('version'));
-        
+
         // Active version dropdown
         $('#versionDropdown').dropdown()
 
         // Version dropdown event listener 
-        document.getElementById('version').addEventListener('click', (event) => {
-            for (let i of event.target.attributes) {
-                if (i.nodeName === "for") {
-                    console.log(`updating version to ${i.value}`)
-                    updateApiVersion(i.value);
+        try {
+            document.getElementById('version').addEventListener('click', (event) => {
+                for (let i of event.target.attributes) {
+                    if (i.nodeName === "for") {
+                        console.log(`updating version to ${i.value}`)
+                        updateApiVersion(i.value);
+                    }
                 }
-            }
-        });
+            });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     // Submits the payment options and gets payment methods again

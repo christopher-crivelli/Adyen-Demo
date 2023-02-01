@@ -217,14 +217,14 @@ const createCardConfig = (brands) => {
         // Events
         onLoad: function () { },
         onConfigSuccess: function () { },
-        onValid: function () { },
+        onValid: function (field) {console.log(field) },
         onBrand: function (brand) { switchBrand(brand.brand) },
         onError: function () { },
         onFocus: function (arg) { },
         onBinValue: function (bin) { updateBin(bin.binValue) },
         onBinLookup: function () { },
         onFieldValid: function (field) {
-
+            console.log(field);
         }
     }
 }
